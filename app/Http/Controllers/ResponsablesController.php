@@ -85,7 +85,7 @@ class ResponsablesController extends Controller
     }
     public function store(Request $request)
     {
-        $unidad = Unidadadmin::select('unidad')->where('estado','=','1')->get();
+        
         $fecha = Carbon::now()->format('Ymd');
 
    try { 
@@ -96,11 +96,10 @@ class ResponsablesController extends Controller
                 'editMode' => TableEditor::EDIT_MODE_CLONE, //default
             ]
             );
-        for ($i=0; $i<count($unidad);$i++){
-            $codofic = Responsables::where('codofic','=',$request->codofic)->where('unidad','=',$unidad[$i]->unidad)->count();
+            $codofic = Responsables::where('codofic','=',$request->codofic)->count();
             $responsable = new Responsables();
             $responsable->entidad='0020';
-            $responsable->unidad=$unidad[$i]->unidad;
+            $responsable->unidad='MD01';
             $responsable->codofic = $request->codofic;
             $responsable->codresp = $codofic + 1;
             $responsable->nomresp = $request->nomresp;
@@ -117,7 +116,7 @@ class ResponsablesController extends Controller
 
             $record = $table->appendRecord();
             $record->set('entidad', '0020');
-            $record->set('unidad',$unidad[$i]->unidad);
+            $record->set('unidad','MD01');
             $record->set('codofic',$request->codofic);
             $record->set('codresp',$codofic + 1);
             $record->set('nomresp',$request->nomresp);
@@ -128,7 +127,7 @@ class ResponsablesController extends Controller
             $record->set('cod_exp',$request->expedido);
             $record->set('api_estado',1);
             $table->writeRecord()->save();
-        }
+        
             $table->close();
             return response()->json(['message' => 'Datos Guardados Correctamente!!!']);   
         } catch (Exception $e) {

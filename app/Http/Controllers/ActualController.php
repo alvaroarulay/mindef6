@@ -45,6 +45,7 @@ class ActualController extends Controller
                             'actual.descripcion','actual.codestado','actual.estadoasignacion',
                             'actual.dia','actual.mes','actual.año','actual.costo','actual.costo_ant','actual.cod_rube',
                             'actual.codigosec','actual.observ','actual.codcont','actual.codaux')
+                            ->distinct('actual.id')
                             ->where('actual.unidad','=',$unidad)
                             ->paginate(10);
             return [
@@ -76,6 +77,7 @@ class ActualController extends Controller
                             'actual.descripcion','actual.codestado','actual.estadoasignacion',
                             'actual.dia','actual.mes','actual.año','actual.costo','actual.costo_ant','actual.cod_rube',
                             'actual.codigosec','actual.observ','actual.codcont','actual.codaux')
+                            ->distinct('actual.id')
                             ->where('actual.unidad','=',$unidad)
                             ->where('actual.'.$criterio, 'like', '%'. $buscar . '%')->paginate(10); 
             return [
